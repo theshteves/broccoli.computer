@@ -116,7 +116,7 @@
 		<p style="padding-top: 1rem">Follow along for updates.<br />New site coming soon.</p>
 		<img class="logo" alt="logo" style="padding-bottom: 3rem" height="128" src="./img/logo.svg" />
 
-    <form action="#" method="post">
+    <form id="signup">
       <input
         type="email"
         name="email"
@@ -127,6 +127,33 @@
       >
 			<button type="submit" style="background-color: #005100; color: white; font-weight: bold">Claim Invite</button>
     </form>
+
+		<script>
+			const form = document.querySelector("#signup");
+
+			form.addEventListener("submit", async (event) => {
+				event.preventDefault();
+
+				const email = form.email.value;
+
+				const response = await fetch(
+					"https://signup-worker.stevenkneiser.workers.dev",
+					{
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json"
+						},
+						body: JSON.stringify({ email })
+					}
+				);
+
+				if (response.ok) {
+					form.innerHTML = "<p>Welcome to the club.</p>";
+				} else {
+					alert("Oops! Cloudflare is offline. Email steven.kneiser@broccoli.computer");
+				}
+			});
+		</script>
 
 		<!-- <img alt="mem" src="./img/bcli-mem.png" /> -->
   </main>
